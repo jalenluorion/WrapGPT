@@ -241,6 +241,7 @@ const triviaQuestions: TriviaQuestion[] = [
     image: './src/assets/leetcode.png',
     validate: (answer: string) => answer.length > 200,
     rightMessage: 'close enough i think',
+    wrongMessage: '0/10 Testcases Passed',
   },
   // Image + free response, custom validation (length requirement)
   {
@@ -249,6 +250,7 @@ const triviaQuestions: TriviaQuestion[] = [
     image: './src/assets/putnam.png',
     validate: (answer: string) => answer.length > 300,
     rightMessage: 'i dunno the answer either. good enough',
+    wrongMessage: 'Not rigourous enough.',
   },
 ];
 
@@ -289,6 +291,13 @@ const TriviaModal = ({ isOpen, onCorrect, onIncorrect, onClose }: TriviaModalPro
     setSelectedAnswer('');
   };
 
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (selectedAnswer) handleSubmit();
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -323,6 +332,7 @@ const TriviaModal = ({ isOpen, onCorrect, onIncorrect, onClose }: TriviaModalPro
                 type="text"
                 value={selectedAnswer}
                 onChange={e => setSelectedAnswer(e.target.value)}
+                onKeyDown={handleInputKeyDown}
                 className="border rounded px-2 py-1 w-full"
                 placeholder="Type your answer..."
               />
