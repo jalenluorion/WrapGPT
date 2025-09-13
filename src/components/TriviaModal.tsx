@@ -6,6 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Gift, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
+// import the images statically for Vite
+import triviaImage1 from '/assets/2024_1_8.png';
+import triviaImage2 from '/assets/2022_1_9.png';
+import triviaImage3 from '/assets/leetcode.png';
+import triviaImage4 from '/assets/putnam.png';
+import triviaImage5 from '/assets/geoguessr.jpg';
+
 interface TriviaQuestion {
   type: 'multiple-choice' | 'free-response';
   question: string;
