@@ -20,48 +20,48 @@ interface TriviaModalProps {
 
 const triviaQuestions: TriviaQuestion[] = [
   {
-    question: "What are the names of Santa's reindeer?",
+    question: "What does GPT stand for?",
     options: [
-      "Dasher, Dancer, Prancer, Vixen, Comet, Cupid, Donner, Blitzen, Rudolph",
-      "Dasher, Dancer, Prancer, Vixen, Comet, Cupid, Donder, Blitzen, Rudolph", 
-      "Dasher, Dancer, Prancer, Vixen, Comet, Cupid, Thunder, Blitzen, Rudolph"
+      "Generative Pre-trained Transformer",
+      "General Purpose Technology", 
+      "Great Programming Tool"
     ],
-    correct: 1
-  },
-  {
-    question: "In which country did the Christmas tree tradition originate?",
-    options: ["Norway", "Germany", "Finland"],
-    correct: 1
-  },
-  {
-    question: "What is the best-selling Christmas song of all time?",
-    options: ["White Christmas by Bing Crosby", "Silent Night", "Jingle Bells"],
     correct: 0
   },
   {
-    question: "In the song 'The Twelve Days of Christmas', what gift is given on the 5th day?",
-    options: ["Five golden rings", "Five calling birds", "Five french hens"],
-    correct: 0
+    question: "Which company created ChatGPT?",
+    options: ["Google", "OpenAI", "Microsoft"],
+    correct: 1
   },
   {
-    question: "What beverage is left out for Santa on Christmas Eve?",
-    options: ["Hot chocolate", "Coffee", "Milk"],
+    question: "What is the maximum context window for GPT-4?",
+    options: ["8K tokens", "32K tokens", "128K tokens"],
     correct: 2
   },
   {
-    question: "Which Christmas movie features the line 'Every time a bell rings, an angel gets his wings'?",
-    options: ["Miracle on 34th Street", "It's a Wonderful Life", "A Christmas Carol"],
-    correct: 1
-  },
-  {
-    question: "What do children in France leave out for Santa Claus?",
-    options: ["Cookies", "Their shoes", "Milk and cookies"],
-    correct: 1
-  },
-  {
-    question: "In what year was the first Christmas card sent?",
-    options: ["1843", "1850", "1837"],
+    question: "What does API stand for?",
+    options: ["Application Programming Interface", "Automated Program Integration", "Advanced Programming Instructions"],
     correct: 0
+  },
+  {
+    question: "Which of these is NOT a popular AI model?",
+    options: ["Claude", "BERT", "JavaScript"],
+    correct: 2
+  },
+  {
+    question: "What is the term for training an AI model on specific data?",
+    options: ["Fine-tuning", "Code-tuning", "Data-shaping"],
+    correct: 0
+  },
+  {
+    question: "What does LLM stand for in AI?",
+    options: ["Large Language Model", "Linear Learning Machine", "Logic Learning Module"],
+    correct: 0
+  },
+  {
+    question: "Which programming language is most commonly used for AI development?",
+    options: ["JavaScript", "Python", "C++"],
+    correct: 1
   }
 ];
 
@@ -86,14 +86,14 @@ const TriviaModal = ({ isOpen, onCorrect, onIncorrect, onClose }: TriviaModalPro
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Gift className="h-5 w-5 text-red-600" />
-            Christmas Trivia Challenge!
+            <Gift className="h-5 w-5 text-primary" />
+            AI Trivia Challenge!
           </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Answer correctly to unwrap your present and reveal the message!
+            Answer correctly to unwrap your AI response!
           </p>
           
           <div className="space-y-3">
@@ -119,7 +119,6 @@ const TriviaModal = ({ isOpen, onCorrect, onIncorrect, onClose }: TriviaModalPro
             <Button 
               onClick={handleSubmit} 
               disabled={!selectedAnswer}
-              className="bg-red-600 hover:bg-red-700"
             >
               Submit Answer
             </Button>

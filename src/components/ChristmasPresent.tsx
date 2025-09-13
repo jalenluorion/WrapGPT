@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Gift, Sparkles } from 'lucide-react';
 import TriviaModal from './TriviaModal';
-import presentImage from '@/assets/christmas-present.png';
+import presentImage from '@/assets/gift-box.png';
 
 interface ChristmasPresentProps {
   message: string;
@@ -43,7 +43,7 @@ const ChristmasPresent = ({ message, onUnwrap, onDisappear }: ChristmasPresentPr
   if (state === 'disappeared') {
     return (
       <div className="flex justify-center items-center p-8 text-muted-foreground">
-        <p>Present disappeared... Better luck next time! 🎄</p>
+        <p>Response disappeared... Better luck next time! 📦</p>
       </div>
     );
   }
@@ -51,14 +51,14 @@ const ChristmasPresent = ({ message, onUnwrap, onDisappear }: ChristmasPresentPr
   if (state === 'unwrapped') {
     return (
       <div className="animate-fade-in space-y-4">
-        <div className="flex items-center gap-2 text-green-600 justify-center">
+        <div className="flex items-center gap-2 text-primary justify-center">
           <Sparkles className="h-5 w-5 animate-pulse" />
-          <span className="font-medium">Present Unwrapped!</span>
+          <span className="font-medium">Response Unwrapped!</span>
           <Sparkles className="h-5 w-5 animate-pulse" />
         </div>
-        <div className="bg-gradient-to-br from-green-50 to-red-50 border border-green-200 rounded-lg p-4">
+        <div className="bg-muted/50 border border-border rounded-lg p-4">
           <div className="flex gap-2">
-            <Gift className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
+            <Gift className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
             <div className="whitespace-pre-wrap">{message}</div>
           </div>
         </div>
@@ -78,13 +78,13 @@ const ChristmasPresent = ({ message, onUnwrap, onDisappear }: ChristmasPresentPr
             <div className="relative">
               <img 
                 src={presentImage} 
-                alt="Christmas Present" 
+                alt="Wrapped AI Response" 
                 className="w-24 h-24 group-hover:animate-pulse"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-yellow-200/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
             <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-              Click to unwrap! 🎁
+              Click to unwrap! 📦
             </div>
           </div>
         </Button>

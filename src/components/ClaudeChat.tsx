@@ -46,8 +46,8 @@ const ClaudeChat = () => {
       };
       setMessages([...newMessages, assistantMessage]);
       toast({
-        title: '🎁 Present delivered!',
-        description: 'Click the present and answer the trivia to unwrap your message!',
+        title: '📦 Response wrapped!',
+        description: 'Click the package and answer the trivia to unwrap your message!',
       });
     } else if (error) {
       toast({
@@ -73,7 +73,7 @@ const ClaudeChat = () => {
     ));
     toast({
       title: '🎉 Correct!',
-      description: 'Present unwrapped successfully!',
+      description: 'Response unwrapped successfully!',
     });
   };
 
@@ -85,7 +85,7 @@ const ClaudeChat = () => {
     ));
     toast({
       title: '❌ Wrong Answer',
-      description: 'The present disappeared!',
+      description: 'The response disappeared!',
       variant: 'destructive',
     });
   };
@@ -94,8 +94,8 @@ const ClaudeChat = () => {
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Gift className="h-6 w-6 text-red-600" />
-          🎄 Christmas Claude Wrapper 🎁
+          <Gift className="h-6 w-6 text-primary" />
+          🤖 Claude Wrapper (Literally) 📦
         </CardTitle>
         <div className="flex gap-4 items-center">
           <label className="text-sm font-medium">Model:</label>
@@ -113,11 +113,11 @@ const ClaudeChat = () => {
       </CardHeader>
       
       <CardContent className="space-y-4">
-        <ScrollArea className="h-96 w-full border rounded-md p-4 bg-gradient-to-br from-green-50/50 to-red-50/50">
+        <ScrollArea className="h-96 w-full border rounded-md p-4 bg-muted/20">
           {messages.length === 0 ? (
             <div className="text-center py-8 space-y-2">
-              <Gift className="h-12 w-12 mx-auto text-red-600 animate-pulse" />
-              <p className="text-muted-foreground">Send a message to get a Christmas present! 🎄</p>
+              <Gift className="h-12 w-12 mx-auto text-primary animate-pulse" />
+              <p className="text-muted-foreground">Send a message to get a wrapped AI response! 📦</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -141,13 +141,13 @@ const ClaudeChat = () => {
                       )}
                     </div>
                     <div
-                      className={`rounded-lg p-3 ${
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground'
-                          : message.presentState === 'unwrapped'
-                          ? 'bg-gradient-to-br from-green-50 to-red-50 border border-green-200'
-                          : 'bg-muted'
-                      }`}
+                        className={`rounded-lg p-3 ${
+                          message.role === 'user'
+                            ? 'bg-primary text-primary-foreground'
+                            : message.presentState === 'unwrapped'
+                            ? 'bg-muted/50 border border-border'
+                            : 'bg-muted'
+                        }`}
                     >
                       {message.role === 'assistant' && message.isPresentWrapped && message.presentState !== 'unwrapped' ? (
                         <ChristmasPresent
