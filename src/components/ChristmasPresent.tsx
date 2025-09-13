@@ -43,7 +43,7 @@ const ChristmasPresent = ({ message, onUnwrap, onDisappear }: ChristmasPresentPr
   if (state === 'disappeared') {
     return (
       <div className="flex justify-center items-center p-8 text-muted-foreground">
-        <p>Response disappeared... Better luck next time! 📦</p>
+        <p>Womp womp. Response disappeared.. 📦</p>
       </div>
     );
   }
@@ -72,19 +72,19 @@ const ChristmasPresent = ({ message, onUnwrap, onDisappear }: ChristmasPresentPr
         <Button
           variant="ghost"
           onClick={handleClick}
-          className="p-4 hover:scale-105 transition-transform duration-200 group"
+          className="h-full w-full hover:scale-105 transition-transform duration-200 group"
         >
-          <div className="text-center space-y-2">
+          <div className="absolute inset-0 bg-gradient-to-t from-yellow-200/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+          <div className="text-center space-y-2 flex flex-col items-center">
             <div className="relative">
               <img 
                 src={presentImage} 
                 alt="Wrapped AI Response" 
-                className="w-24 h-24 group-hover:animate-pulse"
+                className="w-24 h-24 group-hover:animate-pulse mx-auto"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-yellow-200/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
             <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-              Click to unwrap! 📦
+              Unwrap your AI response! 📦
             </div>
           </div>
         </Button>

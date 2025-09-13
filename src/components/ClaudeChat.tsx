@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,6 +20,13 @@ const ClaudeChat = () => {
   const [input, setInput] = useState('');
   const [model, setModel] = useState('claude-3-5-haiku-20241022');
   const { sendMessage, loading, error } = useClaude();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -47,7 +54,7 @@ const ClaudeChat = () => {
       setMessages([...newMessages, assistantMessage]);
       toast({
         title: '📦 Response wrapped!',
-        description: 'Click the package and answer the trivia to unwrap your message!',
+        description: 'Oh you thought it was ganna be easy? Click the package to unwrap your message.',
       });
     } else if (error) {
       toast({
@@ -71,10 +78,6 @@ const ClaudeChat = () => {
         ? { ...msg, isPresentWrapped: false, presentState: 'unwrapped' }
         : msg
     ));
-    toast({
-      title: '🎉 Correct!',
-      description: 'Response unwrapped successfully!',
-    });
   };
 
   const handlePresentDisappear = (messageId: string) => {
@@ -83,41 +86,22 @@ const ClaudeChat = () => {
         ? { ...msg, presentState: 'disappeared' }
         : msg
     ));
-    toast({
-      title: '❌ Wrong Answer',
-      description: 'The response disappeared!',
-      variant: 'destructive',
-    });
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
+    <Card className="w-full max-w-4xl mx-auto flex-1 h-full flex flex-col overflow-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Gift className="h-6 w-6 text-primary" />
-          🤖 Claude Wrapper (Literally) 📦
+          🤖 WrapGPT 📦
         </CardTitle>
-        <div className="flex gap-4 items-center">
-          <label className="text-sm font-medium">Model:</label>
-          <Select value={model} onValueChange={setModel}>
-            <SelectTrigger className="w-64">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="claude-3-5-haiku-20241022">Claude 3.5 Haiku (Fast)</SelectItem>
-              <SelectItem value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Balanced)</SelectItem>
-              <SelectItem value="claude-3-opus-20240229">Claude 3 Opus (Most Capable)</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </CardHeader>
       
-      <CardContent className="space-y-4">
-        <ScrollArea className="h-96 w-full border rounded-md p-4 bg-muted/20">
+      <CardContent className="space-y-4 flex flex-col flex-1 overflow-auto">
+        <ScrollArea className="w-full border rounded-md p-4 bg-muted/20 flex-1">
           {messages.length === 0 ? (
             <div className="text-center py-8 space-y-2">
               <Gift className="h-12 w-12 mx-auto text-primary animate-pulse" />
-              <p className="text-muted-foreground">Send a message to get a wrapped AI response! 📦</p>
+              <p className="text-muted-foreground">Send a message to our in-house LLM! (it's not just an anthropic api call i swear) 📦</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -162,6 +146,7 @@ const ClaudeChat = () => {
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
           )}
         </ScrollArea>
