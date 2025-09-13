@@ -67,7 +67,7 @@ const triviaQuestions: TriviaQuestion[] = [
   {
     type: 'free-response',
     question: '',
-    image: './src/assets/2024_1_8.png',
+    image: '/assets/2024_1_8.png',
     correctAnswers: ['197'],
   },
   // Free response, custom validation (number)
@@ -89,7 +89,7 @@ const triviaQuestions: TriviaQuestion[] = [
   {
     type: 'free-response',
     question: 'Geoguessr: Name the country.',
-    image: './src/assets/geoguessr.jpg',
+    image: '/assets/geoguessr.jpg',
     correctAnswers: ['Cambodia'],
   },
   // Free response, no validation (open-ended)
@@ -157,7 +157,7 @@ const triviaQuestions: TriviaQuestion[] = [
   {
     type: 'free-response',
     question: 'Solve this AIME problem.',
-    image: './src/assets/2022_1_9.png',
+    image: '/assets/2022_1_9.png',
     correctAnswers: ['247'],
   },
   // Multiple choice
@@ -238,7 +238,7 @@ const triviaQuestions: TriviaQuestion[] = [
   {
     type: 'free-response',
     question: 'Give me the answer as code, and we will run testcases on it.',
-    image: './src/assets/leetcode.png',
+    image: '/assets/leetcode.png',
     validate: (answer: string) => answer.length > 200,
     rightMessage: 'close enough i think',
     wrongMessage: '0/10 Testcases Passed',
@@ -247,7 +247,7 @@ const triviaQuestions: TriviaQuestion[] = [
   {
     type: 'free-response',
     question: 'Proof: Provide your answer in LaTeX.',
-    image: './src/assets/putnam.png',
+    image: '/assets/putnam.png',
     validate: (answer: string) => answer.length > 300,
     rightMessage: 'i dunno the answer either. good enough',
     wrongMessage: 'Not rigourous enough.',
