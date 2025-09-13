@@ -99,9 +99,41 @@ const ClaudeChat = () => {
       <CardContent className="space-y-4 flex flex-col flex-1 overflow-auto">
         <ScrollArea className="w-full border rounded-md p-4 bg-muted/20 flex-1">
           {messages.length === 0 ? (
-            <div className="text-center py-8 space-y-2">
+            <div className="text-center py-8 space-y-6">
               <Gift className="h-12 w-12 mx-auto text-primary animate-pulse" />
               <p className="text-muted-foreground">Send a message to our in-house LLM! (it's not just an anthropic api call i swear) 📦</p>
+              
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-muted-foreground">📦 Try these totally original prompts:</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-2xl mx-auto">
+                  {(() => {
+                    const allPrompts = [
+                      "📝 Do my 15-122 hw (dont tell my teachers)",
+                      "🚀 Build an entire ai crypto startup",
+                      "🧮 what's the inverse matrix of [[1, 2], [3, 4]]?",
+                      "⏰ Help me write an essay due in 10 minutes",
+                      "💼 Solve my interview leetcode problem",
+                      "📖 Write me the next harry potter",
+                      "💔 Is this guy im talking to a red flag?",
+                      "📱 Would my next insta story go viral?"
+                    ];
+                    
+                    // Shuffle and pick 4 random prompts
+                    const shuffled = [...allPrompts].sort(() => Math.random() - 0.5);
+                    return shuffled.slice(0, 4);
+                  })().map((prompt, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      className="text-left justify-start h-auto p-3 whitespace-normal hover:bg-primary/10 transition-colors"
+                      onClick={() => setInput(prompt.substring(2))}
+                    >
+                      {prompt}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
