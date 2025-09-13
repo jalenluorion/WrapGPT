@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Gift, Sparkles } from 'lucide-react';
 import TriviaModal from './TriviaModal';
-import presentImage from '@/assets/gift-box.png';
+import presentImage from '/assets/gift-box.png';
 
 interface ChristmasPresentProps {
   message: string;
