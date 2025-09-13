@@ -5,11 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useClaude, ClaudeMessage } from '@/hooks/useClaude';
-import { Loader2, Send, Bot, User } from 'lucide-react';
+import { Loader2, Send, Bot, User, Gift } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import ChristmasPresent from './ChristmasPresent';
+
+interface MessageWithPresent extends ClaudeMessage {
+  id?: string;
+  isPresentWrapped?: boolean;
+  presentState?: 'wrapped' | 'unwrapped' | 'disappeared';
+}
 
 const ClaudeChat = () => {
-  const [messages, setMessages] = useState<ClaudeMessage[]>([]);
+  const [messages, setMessages] = useState<MessageWithPresent[]>([]);
   const [input, setInput] = useState('');
   const [model, setModel] = useState('claude-3-5-haiku-20241022');
   const { sendMessage, loading, error } = useClaude();
@@ -17,26 +24,30 @@ const ClaudeChat = () => {
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    const userMessage: ClaudeMessage = {
+    const userMessage: MessageWithPresent = {
       role: 'user',
       content: input.trim(),
+      id: Date.now().toString(),
     };
 
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
 
-    const response = await sendMessage(newMessages, model);
+    const response = await sendMessage(newMessages.map(m => ({ role: m.role, content: m.content })), model);
 
     if (response) {
-      const assistantMessage: ClaudeMessage = {
+      const assistantMessage: MessageWithPresent = {
         role: 'assistant',
         content: response.content[0]?.text || 'No response content',
+        id: (Date.now() + 1).toString(),
+        isPresentWrapped: true,
+        presentState: 'wrapped',
       };
       setMessages([...newMessages, assistantMessage]);
       toast({
-        title: 'Response received',
-        description: `Used ${response.usage.input_tokens} input tokens, ${response.usage.output_tokens} output tokens`,
+        title: '🎁 Present delivered!',
+        description: 'Click the present and answer the trivia to unwrap your message!',
       });
     } else if (error) {
       toast({
@@ -54,12 +65,37 @@ const ClaudeChat = () => {
     }
   };
 
+  const handlePresentUnwrap = (messageId: string) => {
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId 
+        ? { ...msg, isPresentWrapped: false, presentState: 'unwrapped' }
+        : msg
+    ));
+    toast({
+      title: '🎉 Correct!',
+      description: 'Present unwrapped successfully!',
+    });
+  };
+
+  const handlePresentDisappear = (messageId: string) => {
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId 
+        ? { ...msg, presentState: 'disappeared' }
+        : msg
+    ));
+    toast({
+      title: '❌ Wrong Answer',
+      description: 'The present disappeared!',
+      variant: 'destructive',
+    });
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Bot className="h-6 w-6" />
-          Claude AI Wrapper
+          <Gift className="h-6 w-6 text-red-600" />
+          🎄 Christmas Claude Wrapper 🎁
         </CardTitle>
         <div className="flex gap-4 items-center">
           <label className="text-sm font-medium">Model:</label>
@@ -77,11 +113,12 @@ const ClaudeChat = () => {
       </CardHeader>
       
       <CardContent className="space-y-4">
-        <ScrollArea className="h-96 w-full border rounded-md p-4">
+        <ScrollArea className="h-96 w-full border rounded-md p-4 bg-gradient-to-br from-green-50/50 to-red-50/50">
           {messages.length === 0 ? (
-            <p className="text-muted-foreground text-center py-8">
-              Start a conversation with Claude...
-            </p>
+            <div className="text-center py-8 space-y-2">
+              <Gift className="h-12 w-12 mx-auto text-red-600 animate-pulse" />
+              <p className="text-muted-foreground">Send a message to get a Christmas present! 🎄</p>
+            </div>
           ) : (
             <div className="space-y-4">
               {messages.map((message, index) => (
@@ -107,10 +144,20 @@ const ClaudeChat = () => {
                       className={`rounded-lg p-3 ${
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground'
+                          : message.presentState === 'unwrapped'
+                          ? 'bg-gradient-to-br from-green-50 to-red-50 border border-green-200'
                           : 'bg-muted'
                       }`}
                     >
-                      <p className="whitespace-pre-wrap">{message.content}</p>
+                      {message.role === 'assistant' && message.isPresentWrapped && message.presentState !== 'unwrapped' ? (
+                        <ChristmasPresent
+                          message={message.content}
+                          onUnwrap={() => handlePresentUnwrap(message.id!)}
+                          onDisappear={() => handlePresentDisappear(message.id!)}
+                        />
+                      ) : (
+                        <p className="whitespace-pre-wrap">{message.content}</p>
+                      )}
                     </div>
                   </div>
                 </div>
